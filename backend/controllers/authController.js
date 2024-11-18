@@ -4,9 +4,9 @@ const bcrypt = require('bcryptjs');
 
 // Register farmer
 exports.registerFarmer = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body; // Include 'role'
   try {
-    const farmer = await Farmer.create({ name, email, password });
+    const farmer = await Farmer.create({ name, email, password, role: role || 'Farmer' });
     const token = jwt.sign({ id: farmer._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.status(201).json({ success: true, token });
   } catch (error) {
@@ -41,7 +41,7 @@ exports.getFarmerProfile = async (req, res) => {
 
 // Update Farmer Profile
 exports.updateFarmerProfile = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, role, profilePicture } = req.body; // Include 'role' and 'profilePicture'
   try {
     const farmer = await Farmer.findById(req.user.id);
     if (!farmer) {
@@ -49,6 +49,9 @@ exports.updateFarmerProfile = async (req, res) => {
     }
     farmer.name = name || farmer.name;
     farmer.email = email || farmer.email;
+    farmer.role = role || farmer.role;
+    farmer.profilePicture = profilePicture || farmer.profilePicture;
+
     const updatedFarmer = await farmer.save();
     res.json({ success: true, farmer: updatedFarmer });
   } catch (error) {
