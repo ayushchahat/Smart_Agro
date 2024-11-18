@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Line } from 'react-chartjs-2';
+import axiosInstance from '../utils/axiosInstance';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,8 +11,6 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import axiosInstance from '../utils/axiosInstance';
 
 // Register Chart.js components
 ChartJS.register(
@@ -23,28 +23,28 @@ ChartJS.register(
   Legend
 );
 
-function SensorGraph() {
+function SensorGraph({ sensorType }) {
   const [graphData, setGraphData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchSensorData();
-  }, []);
+    fetchSensorData(sensorType);
+  }, [sensorType]);
 
-  const fetchSensorData = async () => {
+  const fetchSensorData = async (type) => {
     try {
-      const response = await axiosInstance.get('/sensors');
-      const sensors = response.data.sensors;
+      const response = await axiosInstance.get(`/sensors?type=${type}`);
+      const sensorData = response.data;
 
       // Transform data for the graph
-      const labels = sensors.map((sensor, index) => `Sensor ${index + 1}`);
-      const data = sensors.map((sensor) => parseFloat(sensor.features) || 0);
+      const labels = sensorData.timestamps || [];
+      const data = sensorData.values || [];
 
       setGraphData({
         labels,
         datasets: [
           {
-            label: 'Sensor Values',
+            label: `${type} Values`,
             data,
             borderColor: '#4caf50',
             backgroundColor: 'rgba(76, 175, 80, 0.2)',
@@ -54,16 +54,16 @@ function SensorGraph() {
 
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching sensor data:', error);
+      console.error(`Error fetching ${type} data:`, error);
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Sensor Data Graph</h2>
+    <div className="graph-container">
+      <h3>{sensorType} Graph</h3>
       {loading ? (
-        <p>Loading sensor data...</p>
+        <p>Loading {sensorType} data...</p>
       ) : graphData ? (
         <Line
           data={graphData}
@@ -71,13 +71,13 @@ function SensorGraph() {
             responsive: true,
             plugins: { legend: { position: 'top' } },
             scales: {
-              x: { title: { display: true, text: 'Sensors' } },
-              y: { title: { display: true, text: 'Values' } },
+              x: { title: { display: true, text: 'Time' } },
+              y: { title: { display: true, text: `${sensorType} Values` } },
             },
           }}
         />
       ) : (
-        <p>No data available to display.</p>
+        <p>No data available for {sensorType}.</p>
       )}
     </div>
   );

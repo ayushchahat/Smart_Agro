@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import '../styles/Dashboard.css';
 import axiosInstance from '../utils/axiosInstance';
@@ -33,13 +33,13 @@ function Dashboard() {
     <>
       <Navbar />
       <div className="container">
-        <h1>Dashboard</h1>
-
-        {/* Sensor Data Graph */}
-        <SensorGraph />
-
-        {/* Crop Data Form */}
-        <div>
+        <h1>Smart Agriculture Dashboard</h1>
+        <div className="graphs">
+          <SensorGraph sensorType="Temperature & Humidity" />
+          <SensorGraph sensorType="Soil Moisture" />
+          <SensorGraph sensorType="Light Intensity" />
+        </div>
+        <div className="form-section">
           <h2>Submit Crop Data</h2>
           <form onSubmit={handleSubmit}>
             <input
@@ -75,6 +75,14 @@ function Dashboard() {
             ></textarea>
             <button type="submit">Submit</button>
           </form>
+        </div>
+        <div className="crop-suggestions">
+          <h2>Crop Suggestions</h2>
+          <p>Based on current environmental data, we recommend:</p>
+          <ul>
+            <li>Crop A: Ideal for high humidity</li>
+            <li>Crop B: Suitable for low light conditions</li>
+          </ul>
         </div>
       </div>
     </>
