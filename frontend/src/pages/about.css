@@ -1,0 +1,76 @@
+/* Styling for overall container */
+.about-container {
+    font-family: Arial, sans-serif;
+    margin: 20px auto;
+    max-width: 900px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Headings */
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  h2 {
+    color: #4caf50;
+    margin-top: 20px;
+  }
+  
+  /* Paragraphs */
+  p {
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  .intro {
+    font-size: 1.1em;
+    text-align: justify;
+  }
+  
+  .more-content {
+    display: none;
+  }
+  
+  .more-content.visible {
+    display: block;
+  }
+  
+  /* Buttons */
+  button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Cards */
+  .sensor-card, .crop-card {
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sensor-card img, .crop-card img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .sensor-card h3, .crop-card h3 {
+    margin: 10px 0;
+    color: #4caf50;
+  }
+  

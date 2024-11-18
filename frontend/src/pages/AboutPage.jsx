@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import axiosInstance from '../utils/axiosInstance';
+import './about.css';
 
 function AboutPage() {
   const [sensors, setSensors] = useState([]);
@@ -9,6 +10,7 @@ function AboutPage() {
   const [cropFormVisible, setCropFormVisible] = useState(false);
   const [newSensor, setNewSensor] = useState({ image: '', name: '', description: '', features: '' });
   const [newCrop, setNewCrop] = useState({ image: '', about: '', season: '' });
+  const [readMore, setReadMore] = useState(false);
 
   useEffect(() => {
     fetchSensors();
@@ -84,8 +86,47 @@ function AboutPage() {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div className="about-container">
         <h1>About Smart Agro</h1>
+        <p className="intro">
+          Smart Agro integrates IoT with agriculture to monitor real-time data
+          from fields, enabling informed decisions for sustainable farming.
+        </p>
+
+        {/* Introduction Section */}
+        <section>
+          <h2>Introduction</h2>
+          <p>
+            IoT-based agriculture monitoring revolutionizes farming by utilizing
+            connected devices to collect real-time data. This approach combines
+            crop and soil monitoring with meteorological data, enabling farmers
+            to enhance output and sustainability.
+          </p>
+          <p className={`more-content ${readMore ? 'visible' : ''}`}>
+            The project focuses on automating tasks such as irrigation, light
+            intensity monitoring, and climate control using IoT. Devices like
+            DHT11 sensors measure temperature and humidity, while soil moisture
+            sensors ensure optimal water usage. This integration helps maintain
+            crop quality, optimize resources, and protect soil fertility.
+          </p>
+          <button onClick={() => setReadMore(!readMore)}>
+            {readMore ? 'Read Less' : 'Read More'}
+          </button>
+        </section>
+
+        {/* Objectives Section */}
+        <section>
+          <h2>Objectives</h2>
+          <ul>
+            <li>Monitor and control temperature and humidity using DHT11.</li>
+            <li>
+              Automate irrigation with soil moisture sensors and water pumps.
+            </li>
+            <li>
+              Measure light intensity to regulate photosynthesis and growth.
+            </li>
+          </ul>
+        </section>
 
         {/* Sensors Section */}
         <section>
