@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const connectDB = require('./config/db');
+const connectDb = require('./config/db');
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
@@ -15,7 +15,7 @@ const cropRoutes = require('./routes/cropRoutes');
 dotenv.config();
 
 // Connect to database
-connectDB();
+connectDb();
 
 const app = express();
 app.use(helmet()); // Secure app with various HTTP headers
