@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Increase payl
 // Enable Cross-Origin Resource Sharing
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Frontend URL
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
@@ -41,6 +41,9 @@ app.use('/api/crops', cropRoutes);
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({ success: false, message: err.message });
+  }
   res.status(500).json({ success: false, message: 'Internal Server Error' });
 });
 

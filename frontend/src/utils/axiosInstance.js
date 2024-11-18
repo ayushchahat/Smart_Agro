@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000/api', // Backend API base URL
+  baseURL: 'https://smart-agro-backend.onrender.com/api', // Updated Backend API base URL
   headers: {
     'Content-Type': 'application/json',
   },
