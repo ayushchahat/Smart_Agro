@@ -1,0 +1,71 @@
+/* Container for login page */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Input fields */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Button styling */
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Link styling */
+  p {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  p a {
+    color: #4caf50;
+    text-decoration: none;
+  }
+  
+  p a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Mobile responsiveness */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+  
+    h1 {
+      font-size: 1.2rem;
+    }
+  
+    input,
+    button {
+      padding: 8px;
+    }
+  }
+  

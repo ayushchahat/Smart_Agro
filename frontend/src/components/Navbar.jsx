@@ -5,7 +5,7 @@ import '../styles/Navbar.css';
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="navbar-logo">AlgoOnline</div>
+      <div className="navbar-logo">Smart_Agro</div>
       <div className="nav-links">
         <Link to="/dashboard">Home</Link>
         <Link to="/profile">Profile</Link>

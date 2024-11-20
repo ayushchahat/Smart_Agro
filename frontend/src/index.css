@@ -1,0 +1,24 @@
+/* General Responsive Layout */
+@media (max-width: 768px) {
+    body {
+      font-size: 14px;
+    }
+  
+    .container {
+      width: 90%;
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 1.5rem;
+    }
+  
+    button {
+      padding: 8px 12px;
+    }
+  
+    input {
+      padding: 8px;
+    }
+  }
+  

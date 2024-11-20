@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const fs = require('fs');
+const path = require('path');
 const connectDb = require('./config/db');
 
 // Import Routes
@@ -18,19 +20,22 @@ dotenv.config();
 connectDb();
 
 const app = express();
-app.use(helmet()); // Secure app with various HTTP headers
-app.use(morgan('dev')); // Log HTTP requests
-app.use(express.json({ limit: '10mb' })); // Increase payload size for JSON
-app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Increase payload size for URL-encoded data
+app.use(helmet());
+app.use(morgan('dev'));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Enable Cross-Origin Resource Sharing
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Frontend URL
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
+// Serve uploaded images
+app.use('/uploads', express.static('uploads'));
 
 // Define routes
 app.use('/api/auth', authRoutes);

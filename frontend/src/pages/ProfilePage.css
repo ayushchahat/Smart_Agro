@@ -1,89 +1,107 @@
+/* Profile Page Styling */
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    background: #f8f9fa;
-    min-height: 100vh;
-  }
-  
-  .profile-heading {
-    color: #4caf50;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.profile-heading {
+  color: #4caf50;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.profile-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.profile-info p {
+  font-size: 1rem;
+  color: #333;
+  margin: 0.5rem 0;
+}
+
+.profile-edit label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.profile-edit input[type='text'],
+.profile-edit input[type='email'],
+.profile-edit input[type='file'] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-button,
+.save-button,
+.cancel-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #4caf50;
+  color: #fff;
+  margin-top: 1rem;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Responsive Design for Profile Page */
+@media (max-width: 768px) {
   .profile-card {
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 90%;
+    padding: 1.5rem;
   }
-  
+
   .profile-picture {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 1rem;
+    width: 120px;
+    height: 120px;
   }
-  
-  .profile-info p {
-    font-size: 1rem;
-    color: #333;
-    margin: 0.5rem 0;
-  }
-  
-  .profile-edit label {
-    display: block;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
-  
-  .profile-edit input[type='text'],
-  .profile-edit input[type='email'],
-  .profile-edit input[type='file'] {
+
+  .edit-button, .save-button, .cancel-button {
     width: 100%;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    font-size: 0.9rem;
   }
-  
-  .edit-button,
-  .save-button,
-  .cancel-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .edit-button {
-    background-color: #4caf50;
-    color: #fff;
-    margin-top: 1rem;
-  }
-  
-  .save-button {
-    background-color: #007bff;
-    color: white;
-    margin-right: 0.5rem;
-  }
-  
-  .cancel-button {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
+}
