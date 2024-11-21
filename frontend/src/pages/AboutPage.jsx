@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import axiosInstance from "../utils/axiosInstance";
-import "./about.css";
+import "../styles/about.css";
 
 function AboutPage() {
   const [sensors, setSensors] = useState([]);

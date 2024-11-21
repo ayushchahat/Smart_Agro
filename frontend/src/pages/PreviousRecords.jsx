@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import axiosInstance from '../utils/axiosInstance';
-import './PreviousRecords.css';
+import '../styles/PreviousRecords.css';
 function PreviousRecords() {
   const [records, setRecords] = useState([]);
 

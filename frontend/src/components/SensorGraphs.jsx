@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import axiosInstance from '../utils/axiosInstance';
+import { io } from 'socket.io-client';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +12,6 @@ import {
   Legend,
 } from 'chart.js';
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,61 +23,59 @@ ChartJS.register(
 );
 
 function SensorGraph({ sensorType }) {
-  const [graphData, setGraphData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [graphData, setGraphData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: `${sensorType} Values`,
+        data: [],
+        borderColor: '#4caf50',
+        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+      },
+    ],
+  });
 
   useEffect(() => {
-    fetchSensorData(sensorType);
-  }, [sensorType]);
+    const socket = io(process.env.REACT_APP_BACKEND_URL || 'https://smart-agro-backend.onrender.com/api');
 
-  const fetchSensorData = async (type) => {
-    try {
-      const response = await axiosInstance.get(`/sensors?type=${type}`);
-      const sensorData = response.data;
+    socket.on('sensor-data', (data) => {
+      const value =
+        sensorType === 'Temperature & Humidity'
+          ? data.temperature
+          : sensorType === 'Soil Moisture'
+          ? data.soilMoisture
+          : data.lightIntensity;
 
-      // Transform data for the graph
-      const labels = sensorData.timestamps || [];
-      const data = sensorData.values || [];
+      const label = new Date(data.timestamp).toLocaleTimeString();
 
-      setGraphData({
-        labels,
+      setGraphData((prevData) => ({
+        labels: [...prevData.labels.slice(-9), label], // Keep last 10 labels
         datasets: [
           {
-            label: `${type} Values`,
-            data,
-            borderColor: '#4caf50',
-            backgroundColor: 'rgba(76, 175, 80, 0.2)',
+            ...prevData.datasets[0],
+            data: [...prevData.datasets[0].data.slice(-9), value], // Keep last 10 data points
           },
         ],
-      });
+      }));
+    });
 
-      setLoading(false);
-    } catch (error) {
-      console.error(`Error fetching ${type} data:`, error);
-      setLoading(false);
-    }
-  };
+    return () => socket.disconnect();
+  }, [sensorType]);
 
   return (
     <div className="graph-container">
       <h3>{sensorType} Graph</h3>
-      {loading ? (
-        <p>Loading {sensorType} data...</p>
-      ) : graphData ? (
-        <Line
-          data={graphData}
-          options={{
-            responsive: true,
-            plugins: { legend: { position: 'top' } },
-            scales: {
-              x: { title: { display: true, text: 'Time' } },
-              y: { title: { display: true, text: `${sensorType} Values` } },
-            },
-          }}
-        />
-      ) : (
-        <p>No data available for {sensorType}.</p>
-      )}
+      <Line
+        data={graphData}
+        options={{
+          responsive: true,
+          plugins: { legend: { position: 'top' } },
+          scales: {
+            x: { title: { display: true, text: 'Time' } },
+            y: { title: { display: true, text: `${sensorType} Values` } },
+          },
+        }}
+      />
     </div>
   );
 }

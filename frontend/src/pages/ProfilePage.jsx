@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import axiosInstance from '../utils/axiosInstance';
-import './ProfilePage.css';
+import '../styles/ProfilePage.css';
 
 function ProfilePage() {
   const [farmer, setFarmer] = useState({
