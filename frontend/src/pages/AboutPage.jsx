@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 import axiosInstance from "../utils/axiosInstance";
 import "../styles/about.css";
 
@@ -42,17 +43,23 @@ function AboutPage() {
 
   const handleFileUpload = (e, setNewItem) => {
     const file = e.target.files[0];
-    if (file) {
+    if (file && file.size <= 1024 * 1024) { // 1 MB limit
       const reader = new FileReader();
       reader.onload = () => {
-        setNewItem((prev) => ({ ...prev, image: reader.result }));
+        setNewItem((prev) => ({ ...prev, image: reader.result })); // Ensure this is setting the state correctly
       };
       reader.readAsDataURL(file);
+    } else {
+      alert("File is too large. Please upload a file smaller than 1 MB.");
     }
   };
 
   const handleSensorSubmit = async (e) => {
     e.preventDefault();
+    if (!newSensor.name || !newSensor.description || !newSensor.features) {
+      alert("Please fill out all required fields.");
+      return;
+    }
     try {
       const response = await axiosInstance.post("/sensors", newSensor);
       setSensors([...sensors, response.data.sensor]);
@@ -60,11 +67,18 @@ function AboutPage() {
       setNewSensor({ image: "", name: "", description: "", features: "" });
     } catch (error) {
       console.error("Error adding sensor:", error);
+      if (error.response) {
+        console.error("Server response:", error.response.data);
+      }
     }
   };
 
   const handleCropSubmit = async (e) => {
     e.preventDefault();
+    if (!newCrop.about || !newCrop.season) {
+      alert("Please fill out all required fields.");
+      return;
+    }
     try {
       const response = await axiosInstance.post("/crops", newCrop);
       setCrops([...crops, response.data.crop]);
@@ -72,6 +86,9 @@ function AboutPage() {
       setNewCrop({ image: "", about: "", season: "" });
     } catch (error) {
       console.error("Error adding crop:", error);
+      if (error.response) {
+        console.error("Server response:", error.response.data);
+      }
     }
   };
 
@@ -267,6 +284,7 @@ function AboutPage() {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 }

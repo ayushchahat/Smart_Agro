@@ -10,6 +10,7 @@ exports.addSensor = async (req, res) => {
       return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
 
+    // Assuming image is base64 data
     const matches = image.match(/^data:(.+);base64,(.+)$/);
     if (!matches || matches.length !== 3) {
       return res.status(400).json({ success: false, message: 'Invalid image format.' });
@@ -28,7 +29,7 @@ exports.addSensor = async (req, res) => {
       name,
       description,
       features,
-      image: `/uploads/${fileName}`,
+      image: `/uploads/${fileName}`, // Ensure this is correct
     });
 
     res.status(201).json({ success: true, sensor: newSensor });

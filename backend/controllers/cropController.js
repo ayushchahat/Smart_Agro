@@ -19,10 +19,22 @@ exports.addCrop = async (req, res) => {
     const data = matches[2];
     const buffer = Buffer.from(data, 'base64');
 
-    const fileName = `${Date.now()}-crop.${type.split('/')[1]}`;
-    const filePath = path.join(__dirname, '../uploads', fileName);
+    // Validate uploads directory exists
+    const uploadsDir = path.join(__dirname, '../uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
 
-    fs.writeFileSync(filePath, buffer);
+    const fileName = `${Date.now()}-crop.${type.split('/')[1]}`;
+    const filePath = path.join(uploadsDir, fileName);
+
+    // Write file with error handling
+    fs.writeFile(filePath, buffer, (err) => {
+      if (err) {
+        console.error('Error writing file:', err);
+        return res.status(500).json({ success: false, message: 'Error saving image.' });
+      }
+    });
 
     const newCrop = await Crop.create({
       about,

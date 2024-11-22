@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const path = require('path');
 const connectDb = require('./config/db');
 
 // Import Routes
@@ -33,6 +34,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve static files from uploads directory
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
@@ -42,7 +44,7 @@ app.use(
 );
 
 // Serve uploaded images
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Define routes
 app.use('/api/auth', authRoutes);
@@ -54,7 +56,7 @@ app.use('/api/crops', cropRoutes);
 io.on('connection', (socket) => {
   console.log('A client connected:', socket.id);
 
-  // Emit mock sensor data every 2 seconds (replace this with actual sensor data logic)
+  // Emit mock sensor data every 2 seconds
   const interval = setInterval(() => {
     const sampleData = {
       timestamp: new Date().toISOString(),
@@ -83,15 +85,13 @@ app.post('/sensor-data', (req, res) => {
   res.status(200).send('Data broadcasted');
 });
 
-
-
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  if (err.name === 'ValidationError') {
-    return res.status(400).json({ success: false, message: err.message });
-  }
-  res.status(500).json({ success: false, message: 'Internal Server Error' });
+  console.error('Global Error:', { message: err.message, stack: err.stack });
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+  });
 });
 
 // Start the server

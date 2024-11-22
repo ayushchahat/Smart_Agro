@@ -5,7 +5,10 @@ import '../styles/Navbar.css';
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="navbar-logo">Smart_Agro</div>
+      <div className="navbar-left">
+        <img src="/image/logo.png" alt="Smart Agro Logo" className="navbar-logo-image" />
+        <div className="navbar-logo">Smart_Agro</div>
+      </div>
       <div className="nav-links">
         <Link to="/dashboard">Home</Link>
         <Link to="/profile">Profile</Link>

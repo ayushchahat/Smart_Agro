@@ -1,0 +1,52 @@
+/* Footer Styles */
+.custom-footer {
+    background-color: #dfffe1; /* Light green background */
+    color: #1d6811; /* Dark green text */
+    font-family: 'Roboto', sans-serif;
+    padding: 40px 20px;
+    text-align: center;
+    margin-top: 4px;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-logo h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #3d8e33; /* Dark green for logo */
+    margin-bottom: 20px;
+  }
+  
+  .footer-contact p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #3d8e33; /* Dark green text */
+  }
+  
+  .footer-contact a {
+    text-decoration: none;
+    color: #2a6a24;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-contact a:hover {
+    color: #1f5c1b; /* Even darker green on hover */
+  }
+  
+  .footer-bottom p {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #3d8e33;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-contact p {
+      font-size: 14px;
+    }
+  }
+  

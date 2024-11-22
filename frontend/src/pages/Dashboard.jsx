@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import '../styles/Dashboard.css';
 import axiosInstance from '../utils/axiosInstance';
 import SensorGraph from '../components/SensorGraphs';
@@ -85,6 +86,7 @@ function Dashboard() {
           </ul>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

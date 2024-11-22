@@ -3,14 +3,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4caf50;
+  background-color: #4caf50; /* Green background */
   padding: 10px 20px;
   color: white;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo-image {
+  width: 50px; /* Adjust the size of the logo */
+  height: 50px;
+  margin-right: 10px; /* Spacing between logo and text */
 }
 
 .navbar-logo {
   font-size: 1.5rem;
   font-weight: bold;
+  color: white;
 }
 
 .nav-links {
@@ -21,6 +33,7 @@
 .nav-links a {
   color: white;
   text-decoration: none;
+  font-size: 1rem;
 }
 
 .nav-links a:hover {

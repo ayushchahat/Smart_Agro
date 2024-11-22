@@ -36,7 +36,7 @@ function SensorGraph({ sensorType }) {
   });
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_BACKEND_URL || 'https://smart-agro-backend.onrender.com/api');
+    const socket = io(process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000/api');
 
     socket.on('sensor-data', (data) => {
       const value =

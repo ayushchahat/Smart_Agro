@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import axiosInstance from '../utils/axiosInstance';
 import '../styles/ProfilePage.css';
 
@@ -142,6 +143,7 @@ function ProfilePage() {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }
