@@ -5,6 +5,8 @@
   align-items: center;
   background-color: #4caf50; /* Green background */
   padding: 10px 20px;
+  margin-bottom: 6px;
+  border-radius: 6px;
   color: white;
 }
 
