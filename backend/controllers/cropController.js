@@ -2,6 +2,7 @@ const Crop = require('../models/Crop');
 const fs = require('fs');
 const path = require('path');
 
+
 exports.addCrop = async (req, res) => {
   try {
     const { about, season, image } = req.body;
@@ -10,42 +11,34 @@ exports.addCrop = async (req, res) => {
       return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
 
+    // Parse and validate Base64 image
     const matches = image.match(/^data:(.+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) {
+    if (!matches) {
       return res.status(400).json({ success: false, message: 'Invalid image format.' });
     }
 
-    const type = matches[1];
-    const data = matches[2];
-    const buffer = Buffer.from(data, 'base64');
+    const mimeType = matches[1];
+    const base64Data = matches[2];
+    const buffer = Buffer.from(base64Data, 'base64');
 
-    // Validate uploads directory exists
     const uploadsDir = path.join(__dirname, '../uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
-    const fileName = `${Date.now()}-crop.${type.split('/')[1]}`;
+    const fileName = `crop-${Date.now()}.${mimeType.split('/')[1]}`;
     const filePath = path.join(uploadsDir, fileName);
 
-    // Write file with error handling
-    fs.writeFile(filePath, buffer, (err) => {
-      if (err) {
-        console.error('Error writing file:', err);
-        return res.status(500).json({ success: false, message: 'Error saving image.' });
-      }
-    });
+    fs.writeFileSync(filePath, buffer);
 
-    const newCrop = await Crop.create({
+    const crop = await Crop.create({
       about,
       season,
-      image: `/uploads/${fileName}`,
+      image: `/uploads/${fileName}`, // Save relative path
     });
 
-    res.status(201).json({ success: true, crop: newCrop });
-  } catch (error) {
-    console.error('Error adding crop:', error);
-    res.status(500).json({ success: false, message: 'Error adding crop.' });
+    res.status(201).json({ success: true, crop });
+  } catch (err) {
+    console.error('Error saving crop:', err);
+    res.status(500).json({ success: false, message: 'Server error.' });
   }
 };
 

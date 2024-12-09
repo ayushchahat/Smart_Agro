@@ -6,18 +6,115 @@ import axiosInstance from '../utils/axiosInstance';
 import SensorGraph from '../components/SensorGraphs';
 
 function Dashboard() {
+  const [sensorData, setSensorData] = useState({
+    temperature: 0,
+    humidity: 0,
+    soilMoisture: 0,
+    lightIntensity: 0,
+  });
   const [cropData, setCropData] = useState({
     crop: '',
     cultivationDate: '',
     quantity: '',
     description: '',
   });
+  const [suggestedCrops, setSuggestedCrops] = useState([]);
 
+  // Fetch sensor data
+  const fetchSensorData = async () => {
+    try {
+      const response = await axiosInstance.get('/sensor-data');
+      console.log('Sensor Data:', response.data);
+      setSensorData(response.data);
+      suggestCrops(); // Update crop suggestions based on new sensor data
+    } catch (error) {
+      console.error('Error fetching sensor data:', error);
+    }
+  };
+
+  // Suggest crops based on sensor data and the current month
+  const suggestCrops = () => {
+    const month = getCurrentMonth();
+    let crops = [];
+    console.log('Suggesting crops for month:', month); // Debugging current month
+
+    // Logic for crop suggestions based on current month and sensor data
+    if (month === 11 || month === 0) { // December or January (Winter)
+      if (sensorData.soilMoisture > 50) {
+        crops.push({
+          name: "Wheat",
+          reason: "Wheat grows well in cooler temperatures and requires moderate moisture.",
+        });
+      } else {
+        crops.push({
+          name: "Barley",
+          reason: "Barley is ideal for low-moisture soil conditions in cold weather.",
+        });
+      }
+    } else if (month >= 2 && month <= 5) { // Spring to early Summer (March to June)
+      if (sensorData.temperature > 25 && sensorData.lightIntensity > 60) {
+        crops.push({
+          name: "Tomatoes",
+          reason: "Tomatoes thrive in warm weather with plenty of sunlight.",
+        });
+      } else {
+        crops.push({
+          name: "Lettuce",
+          reason: "Lettuce is ideal for cooler climates and moderate sunlight.",
+        });
+      }
+    } else if (month >= 6 && month <= 8) { // Summer (July to September)
+      if (sensorData.soilMoisture > 60) {
+        crops.push({
+          name: "Rice",
+          reason: "Rice requires high water levels and warm conditions.",
+        });
+      } else {
+        crops.push({
+          name: "Corn",
+          reason: "Corn grows best in warm temperatures with moderate soil moisture.",
+        });
+      }
+    } else { // Fall (October and November)
+      if (sensorData.humidity > 60) {
+        crops.push({
+          name: "Spinach",
+          reason: "Spinach is a cool-weather crop and thrives in high humidity.",
+        });
+      } else {
+        crops.push({
+          name: "Pumpkins",
+          reason: "Pumpkins require moderate humidity and cooler conditions.",
+        });
+      }
+    }
+
+    console.log('Suggested Crops:', crops); // Debugging crops suggestions
+    setSuggestedCrops(crops);
+  };
+
+  // Get current month
+  const getCurrentMonth = () => {
+    const date = new Date();
+    return date.getMonth(); // Returns month as 0 (January) to 11 (December)
+  };
+
+  // Handle adding suggested crop to the form
+  const handleAddSuggestedCrop = (crop) => {
+    setCropData({
+      ...cropData,
+      crop: crop.name,
+      description: crop.reason,
+    });
+  };
+
+  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCropData({ ...cropData, [name]: value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,6 +127,11 @@ function Dashboard() {
     }
   };
 
+  // Fetch sensor data on component mount
+  useEffect(() => {
+    fetchSensorData(); // Fetch initial data on component mount
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -39,6 +141,22 @@ function Dashboard() {
           <SensorGraph sensorType="Temperature & Humidity" />
           <SensorGraph sensorType="Soil Moisture" />
           <SensorGraph sensorType="Light Intensity" />
+        </div>
+        <div className="crop-suggestions">
+          <h2>Crop Suggestions</h2>
+          <p>Based on current environmental data, we recommend:</p>
+          <ul>
+            {suggestedCrops.length > 0 ? (
+              suggestedCrops.map((crop, index) => (
+                <li key={index}>
+                  <strong>{crop.name}:</strong> {crop.reason}
+                  <button onClick={() => handleAddSuggestedCrop(crop)}>Add to Record</button>
+                </li>
+              ))
+            ) : (
+              <p>No crop suggestions available at the moment.</p>
+            )}
+          </ul>
         </div>
         <div className="form-section">
           <h2>Submit Crop Data</h2>
@@ -76,14 +194,6 @@ function Dashboard() {
             ></textarea>
             <button type="submit">Submit</button>
           </form>
-        </div>
-        <div className="crop-suggestions">
-          <h2>Crop Suggestions</h2>
-          <p>Based on current environmental data, we recommend:</p>
-          <ul>
-            <li>Crop A: Ideal for high humidity</li>
-            <li>Crop B: Suitable for low light conditions</li>
-          </ul>
         </div>
       </div>
       <Footer />

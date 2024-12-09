@@ -1,9 +1,10 @@
 const express = require('express');
-const http = require('http'); // Required for Socket.IO
-const { Server } = require('socket.io'); // Import Socket.IO
+const http = require('http');
+const { Server } = require('socket.io');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
+const multer = require('multer');
 const morgan = require('morgan');
 const path = require('path');
 const connectDb = require('./config/db');
@@ -34,7 +35,6 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve static files from uploads directory
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
@@ -42,6 +42,29 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
+// Configure multer for image uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, 'uploads');
+    cb(null, uploadDir); // Ensure this folder exists
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname); // Generate a unique file name
+  },
+});
+
+const upload = multer({ storage });
+
+// Route for uploading images
+app.post('/api/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'No file uploaded' });
+  }
+
+  const imagePath = `/uploads/${req.file.filename}`; // Path for accessing the image
+  res.json({ success: true, image: imagePath });
+});
 
 // Serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -66,7 +89,7 @@ io.on('connection', (socket) => {
       lightIntensity: (Math.random() * 1000).toFixed(2), // Random light intensity
     };
     socket.emit('sensor-data', sampleData);
-  }, 2000);
+  }, 3000);
 
   // Clean up on disconnect
   socket.on('disconnect', () => {
@@ -75,14 +98,16 @@ io.on('connection', (socket) => {
   });
 });
 
-app.post('/sensor-data', (req, res) => {
-  const { timestamp, temperature, humidity, soilMoisture, lightIntensity } = req.body;
-
-  // Emit the data to all connected clients via Socket.IO
-  io.emit('sensor-data', { timestamp, temperature, humidity, soilMoisture, lightIntensity });
-
-  // Send an acknowledgment response to the ESP8266
-  res.status(200).send('Data broadcasted');
+// Add GET endpoint for fetching sensor data (if needed)
+app.get('/api/sensor-data', (req, res) => {
+  const sampleData = {
+    timestamp: new Date().toISOString(),
+    temperature: (Math.random() * 40).toFixed(2),
+    humidity: (Math.random() * 100).toFixed(2),
+    soilMoisture: (Math.random() * 100).toFixed(2),
+    lightIntensity: (Math.random() * 1000).toFixed(2),
+  };
+  res.json(sampleData);
 });
 
 // Global error handler

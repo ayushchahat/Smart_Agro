@@ -36,7 +36,7 @@ function SensorGraph({ sensorType }) {
   });
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000/api');
+    const socket = io('http://localhost:5000'); // Hardcoded socket URL
 
     socket.on('sensor-data', (data) => {
       const value =
