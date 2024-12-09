@@ -1,75 +1,86 @@
 /* General Styling */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    font-family: 'Arial', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #4caf50;
+  margin-bottom: 30px;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+table th {
+  background-color: #4caf50;
+  color: white;
+  font-size: 1.1rem;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+table td {
+  color: #555;
+}
+
+/* No Records Found Styling */
+.no-records {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #555;
+  margin-top: 20px;
+}
+
+/* Loading and Error Message */
+.loading, .error-message {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #f44336;
+  margin-top: 20px;
+}
+
+.loading p {
+  color: #4caf50;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
   }
-  
-  h1 {
-    text-align: center;
-    color: #4caf50;
-    margin-bottom: 30px;
-  }
-  
-  /* Table Styling */
+
   table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
   }
-  
+
   table th, table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    font-size: 1rem;
+    padding: 8px;
   }
-  
-  table th {
-    background-color: #4caf50;
-    color: white;
-    font-size: 1.1rem;
-  }
-  
-  table tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  table td {
-    color: #555;
-  }
-  
-  /* No Records Found Styling */
-  p {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #555;
-    margin-top: 20px;
-  }
-  
-  /* Responsive Design for Smaller Screens */
-  @media (max-width: 768px) {
-    .container {
-      padding: 10px;
-    }
-  
-    table {
-      font-size: 0.9rem;
-    }
-  
-    table th, table td {
-      padding: 8px;
-    }
-  }
-  
+}

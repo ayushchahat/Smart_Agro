@@ -1,4 +1,4 @@
-/* Navbar styles */
+/* Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -8,6 +8,7 @@
   margin-bottom: 6px;
   border-radius: 6px;
   color: white;
+  position: relative;
 }
 
 .navbar-left {
@@ -42,9 +43,48 @@
   text-decoration: underline;
 }
 
-/* Mobile view */
+/* Dropdown Button for Mobile View */
+.navbar-dropdown {
+  display: none;
+}
+
+.dropdown-toggle {
+  display: none;
+  font-size: 30px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Mobile View */
 @media (max-width: 768px) {
   .nav-links {
     display: none; /* Hide links on smaller screens */
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #4caf50;
+    border-radius: 6px;
+    padding: 10px 20px;
+    width: 200px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-links a {
+    padding: 10px 0;
+  }
+
+  .navbar-dropdown {
+    display: block; /* Show the hamburger menu on smaller screens */
+  }
+
+  .dropdown-toggle {
+    display: block;
   }
 }

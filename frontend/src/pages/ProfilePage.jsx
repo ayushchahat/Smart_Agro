@@ -18,6 +18,7 @@ function ProfilePage() {
     role: '',
     profilePicture: '',
   });
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     fetchProfile();
@@ -28,6 +29,7 @@ function ProfilePage() {
       const response = await axiosInstance.get('/auth/profile');
       setFarmer(response.data.farmer);
       setUpdatedFarmer(response.data.farmer);
+      setImagePreview(response.data.farmer.profilePicture || null);  // For initial image preview
     } catch (error) {
       console.error('Error fetching profile:', error);
     }
@@ -54,6 +56,7 @@ function ProfilePage() {
           ...prevState,
           profilePicture: reader.result,
         }));
+        setImagePreview(reader.result);  // Preview the uploaded image
       };
       reader.readAsDataURL(file);
     }
@@ -66,7 +69,7 @@ function ProfilePage() {
         <h1 className="profile-heading">Your Profile</h1>
         <div className="profile-card">
           <img
-            src={farmer.profilePicture || 'https://via.placeholder.com/150'}
+            src={imagePreview || 'https://via.placeholder.com/150'}
             alt="Profile"
             className="profile-picture"
           />
@@ -97,6 +100,9 @@ function ProfilePage() {
                   accept="image/*"
                   onChange={handlePictureUpload}
                 />
+                <div className="image-preview">
+                  {imagePreview && <img src={imagePreview} alt="Preview" />}
+                </div>
               </label>
               <label>
                 Name:

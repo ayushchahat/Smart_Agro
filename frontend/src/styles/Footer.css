@@ -1,52 +1,111 @@
 /* Footer Styles */
 .custom-footer {
-    background-color: #dfffe1; /* Light green background */
-    color: #1d6811; /* Dark green text */
-    font-family: 'Roboto', sans-serif;
-    padding: 40px 20px;
-    text-align: center;
-    margin-top: 4px;
-  }
-  
+  background-color: #dfffe1; /* Light green background (previous color) */
+  color: #2c6a4f; /* Darker green text */
+  font-family: 'Roboto', sans-serif;
+  padding: 30px 10px;
+  text-align: center;
+  margin-top: 4px;
+  box-shadow: 0px -4px 12px rgba(0, 0, 0, 0.1); /* Deeper shadow for better separation */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.footer-logo h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #3d8e33; /* Dark green for logo */
+  margin-bottom: 15px;
+}
+
+.footer-tagline {
+  font-size: 16px;
+  font-weight: 400;
+  color: #2c6a4f;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.footer-contact p {
+  font-size: 18px;
+  margin: 15px 0;
+  color: #2c6a4f; /* Dark green text */
+}
+
+.footer-contact a {
+  text-decoration: none;
+  color: #2a6a24;
+  font-weight: 600;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-contact a:hover {
+  color: #1f5c1b; /* Even darker green on hover */
+  transform: scale(1.05); /* Slight zoom effect */
+}
+
+.footer-bottom p {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #2c6a4f;
+  font-style: italic;
+  opacity: 0.8; /* Subtle fade effect */
+}
+
+.footer-note {
+  color: #4b8a3d;
+  font-style: normal;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    flex-direction: column;
+    text-align: center;
   }
-  
+
   .footer-logo h1 {
-    font-size: 28px;
-    font-weight: bold;
-    color: #3d8e33; /* Dark green for logo */
+    font-size: 28px; /* Adjust logo size for small screens */
+  }
+
+  .footer-tagline {
+    font-size: 14px;
     margin-bottom: 20px;
   }
-  
+
   .footer-contact p {
-    font-size: 16px;
-    margin: 10px 0;
-    color: #3d8e33; /* Dark green text */
+    font-size: 14px; /* Adjust font size for better readability */
   }
-  
-  .footer-contact a {
-    text-decoration: none;
-    color: #2a6a24;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-  
-  .footer-contact a:hover {
-    color: #1f5c1b; /* Even darker green on hover */
-  }
-  
+
   .footer-bottom p {
-    margin-top: 30px;
+    font-size: 12px; /* Smaller font for footer note */
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-logo h1 {
+    font-size: 24px;
+  }
+
+  .footer-contact p {
+    font-size: 12px;
+  }
+
+  .footer-contact a {
     font-size: 14px;
-    color: #3d8e33;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .footer-contact p {
-      font-size: 14px;
-    }
+
+  .footer-bottom p {
+    font-size: 10px;
   }
-  
+}
