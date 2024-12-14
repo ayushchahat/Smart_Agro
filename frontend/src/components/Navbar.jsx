@@ -20,6 +20,7 @@ function Navbar() {
         <Link to="/profile">Profile</Link>
         <Link to="/records">Previous Records</Link>
         <Link to="/about">About</Link>
+        {/* <li><Link to="/components">Components</Link></li> */}
         <Link to="/">Logout</Link>
       </div>
       <div className="navbar-dropdown">

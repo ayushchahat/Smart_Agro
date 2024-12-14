@@ -79,17 +79,23 @@ app.use('/api/crops', cropRoutes);
 io.on('connection', (socket) => {
   console.log('A client connected:', socket.id);
 
-  // Emit mock sensor data every 2 seconds
+  // Function to generate random values within a specified range
+  function getRandomInRange(min, max) {
+    return (Math.random() * (max - min) + min).toFixed(2);
+  }
+
+  // Emit sensor data matching the new specified ranges
   const interval = setInterval(() => {
     const sampleData = {
       timestamp: new Date().toISOString(),
-      temperature: (Math.random() * 40).toFixed(2), // Random temperature
-      humidity: (Math.random() * 100).toFixed(2), // Random humidity
-      soilMoisture: (Math.random() * 100).toFixed(2), // Random soil moisture
-      lightIntensity: (Math.random() * 1000).toFixed(2), // Random light intensity
+      temperature: getRandomInRange(20, 27), // Temperature range: 20-27°C
+      humidity: getRandomInRange(45, 65), // Humidity range: 70-85%
+      soilMoisture: getRandomInRange(65, 80), // Soil moisture range: 400-600
+      lightIntensity: getRandomInRange(400, 600), // Arbitrary light intensity range
     };
+
     socket.emit('sensor-data', sampleData);
-  }, 3000);
+  }, 5000);
 
   // Clean up on disconnect
   socket.on('disconnect', () => {
@@ -97,6 +103,7 @@ io.on('connection', (socket) => {
     clearInterval(interval);
   });
 });
+
 
 // Add GET endpoint for fetching sensor data (if needed)
 app.get('/api/sensor-data', (req, res) => {

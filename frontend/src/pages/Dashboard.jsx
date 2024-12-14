@@ -19,6 +19,7 @@ function Dashboard() {
     description: '',
   });
   const [suggestedCrops, setSuggestedCrops] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fetch sensor data
   const fetchSensorData = async () => {
@@ -36,10 +37,9 @@ function Dashboard() {
   const suggestCrops = () => {
     const month = getCurrentMonth();
     let crops = [];
-    console.log('Suggesting crops for month:', month); // Debugging current month
+    console.log('Suggesting crops for month:', month);
 
-    // Logic for crop suggestions based on current month and sensor data
-    if (month === 11 || month === 0) { // December or January (Winter)
+    if (month === 11 || month === 0) { // Winter
       if (sensorData.soilMoisture > 50) {
         crops.push({
           name: "Wheat",
@@ -51,7 +51,7 @@ function Dashboard() {
           reason: "Barley is ideal for low-moisture soil conditions in cold weather.",
         });
       }
-    } else if (month >= 2 && month <= 5) { // Spring to early Summer (March to June)
+    } else if (month >= 2 && month <= 5) { // Spring to early Summer
       if (sensorData.temperature > 25 && sensorData.lightIntensity > 60) {
         crops.push({
           name: "Tomatoes",
@@ -63,7 +63,7 @@ function Dashboard() {
           reason: "Lettuce is ideal for cooler climates and moderate sunlight.",
         });
       }
-    } else if (month >= 6 && month <= 8) { // Summer (July to September)
+    } else if (month >= 6 && month <= 8) { // Summer
       if (sensorData.soilMoisture > 60) {
         crops.push({
           name: "Rice",
@@ -75,7 +75,7 @@ function Dashboard() {
           reason: "Corn grows best in warm temperatures with moderate soil moisture.",
         });
       }
-    } else { // Fall (October and November)
+    } else { // Fall
       if (sensorData.humidity > 60) {
         crops.push({
           name: "Spinach",
@@ -89,17 +89,15 @@ function Dashboard() {
       }
     }
 
-    console.log('Suggested Crops:', crops); // Debugging crops suggestions
+    console.log('Suggested Crops:', crops);
     setSuggestedCrops(crops);
   };
 
-  // Get current month
   const getCurrentMonth = () => {
     const date = new Date();
-    return date.getMonth(); // Returns month as 0 (January) to 11 (December)
+    return date.getMonth();
   };
 
-  // Handle adding suggested crop to the form
   const handleAddSuggestedCrop = (crop) => {
     setCropData({
       ...cropData,
@@ -108,15 +106,14 @@ function Dashboard() {
     });
   };
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCropData({ ...cropData, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await axiosInstance.post('/records', cropData);
       alert('Crop record added successfully!');
@@ -124,12 +121,13 @@ function Dashboard() {
     } catch (error) {
       console.error('Error adding crop record:', error);
       alert('Failed to add crop record. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Fetch sensor data on component mount
   useEffect(() => {
-    fetchSensorData(); // Fetch initial data on component mount
+    fetchSensorData();
   }, []);
 
   return (
@@ -192,7 +190,9 @@ function Dashboard() {
               rows="4"
               required
             ></textarea>
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Submitting...' : 'Submit'}
+            </button>
           </form>
         </div>
       </div>

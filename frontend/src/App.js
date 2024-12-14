@@ -5,7 +5,7 @@ import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/ProfilePage';
 import PreviousRecords from './pages/PreviousRecords';
-import AboutPage from './pages/AboutPage'; // Import the AboutPage component
+import AboutPage from './pages/AboutPage';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/records" element={<PreviousRecords />} />
-        <Route path="/about" element={<AboutPage />} /> {/* Add this route */}
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </Router>
   );
