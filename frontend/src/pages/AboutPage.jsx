@@ -1,132 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import Footer from '../components/Footer';
-import axiosInstance from "../utils/axiosInstance";
+import Footer from "../components/Footer";
+import Cart from "../components/Cart"; // Import the Cart component
 import "../styles/about.css";
 
 function AboutPage() {
-  const [sensors, setSensors] = useState([]);
-  const [crops, setCrops] = useState([]);
-  const [sensorFormVisible, setSensorFormVisible] = useState(false);
-  const [cropFormVisible, setCropFormVisible] = useState(false);
-  const [newSensor, setNewSensor] = useState({
-    image: "",
-    name: "",
-    description: "",
-    features: "",
-  });
-  const [newCrop, setNewCrop] = useState({ image: "", about: "", season: "" });
   const [readMore, setReadMore] = useState(false);
-
-  useEffect(() => {
-    fetchSensors();
-    fetchCrops();
-  }, []);
-
-  const fetchSensors = async () => {
-    try {
-      const response = await axiosInstance.get("/sensors");
-      setSensors(response.data.sensors);
-    } catch (error) {
-      console.error("Error fetching sensors:", error);
-    }
-  };
-
-  const fetchCrops = async () => {
-    try {
-      const response = await axiosInstance.get("/crops");
-      setCrops(response.data.crops);
-    } catch (error) {
-      console.error("Error fetching crops:", error);
-    }
-  };
-
-  const handleFileUpload = (e, setNewItem) => {
-    const file = e.target.files[0];
-    if (file && file.size <= 1024 * 1024) { // 1 MB limit
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      axiosInstance.post('/upload', formData) // Assuming you have an upload API endpoint
-        .then((response) => {
-          setNewItem((prev) => ({
-            ...prev,
-            image: response.data.imageUrl, // Ensure the server returns the image URL
-          }));
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-          alert("Failed to upload image.");
-        });
-    } else {
-      alert("File is too large. Please upload a file smaller than 1 MB.");
-    }
-  };
-
-  const handleSensorSubmit = async (e) => {
-    e.preventDefault();
-    if (!newSensor.name || !newSensor.description || !newSensor.features) {
-      alert("Please fill out all required fields.");
-      return;
-    }
-    try {
-      const response = await axiosInstance.post("/sensors", newSensor);
-      setSensors([...sensors, response.data.sensor]);
-      setSensorFormVisible(false);
-      setNewSensor({ image: "", name: "", description: "", features: "" });
-    } catch (error) {
-      console.error("Error adding sensor:", error);
-      if (error.response) {
-        console.error("Server response:", error.response.data);
-      }
-    }
-  };
-
-  const handleCropSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Validation check: Ensure all fields are filled
-    if (!newCrop.about || !newCrop.season || !newCrop.image) {
-        alert("Please fill out all required fields, including the image.");
-        return;
-    }
-
-    try {
-        const response = await axiosInstance.post("/crops", newCrop);
-        setCrops([...crops, response.data.crop]);
-        setCropFormVisible(false);
-        setNewCrop({ image: "", about: "", season: "" });
-    } catch (error) {
-        console.error("Error adding crop:", error);
-        if (error.response) {
-            console.error("Server response:", error.response.data);
-        }
-    }
-};
-
-
-  const deleteSensor = async (id) => {
-    try {
-      await axiosInstance.delete(`/sensors/${id}`);
-      setSensors(sensors.filter((sensor) => sensor._id !== id));
-    } catch (error) {
-      console.error("Error deleting sensor:", error);
-    }
-  };
-
-  const deleteCrop = async (id) => {
-    try {
-      await axiosInstance.delete(`/crops/${id}`);
-      setCrops(crops.filter((crop) => crop._id !== id));
-    } catch (error) {
-      console.error("Error deleting crop:", error);
-    }
-  };
 
   return (
     <>
       <Navbar />
       <div className="about-container">
+        {/* Hero Section */}
         <header className="hero-section">
           <div className="hero-content">
             <h1>About Smart Agro</h1>
@@ -141,6 +26,8 @@ function AboutPage() {
             className="hero-image"
           />
         </header>
+
+        {/* Introduction Section */}
         <section className="section introduction">
           <h2>Introduction</h2>
           <p>
@@ -156,7 +43,19 @@ function AboutPage() {
               DHT11 sensors measure temperature and humidity, while soil
               moisture sensors ensure optimal water usage. This integration
               helps maintain crop quality, optimize resources, and protect soil
-              fertility.
+              fertility. Agriculture monitoring via IoT-Based approach is the
+              integration of connected devices and sensors collecting real-time
+              information about various agri-fields. This allows farmers to
+              access valuable knowledge regarding the status of their crops and
+              soil, combined with key weather/meteorological data important for
+              farmers enabling them to make well-informed decisions that improve
+              output while maintaining sustainability.<br />
+              <strong>Benefits of IoT-Based Agriculture Monitoring</strong>
+              <ul>
+                <li>Improved Resource Management</li>
+                <li>Enhanced Crop Quality</li>
+                <li>Cost Reduction</li>
+              </ul>
             </p>
           )}
           <button
@@ -167,134 +66,19 @@ function AboutPage() {
           </button>
         </section>
 
+        {/* Objectives Section */}
         <section className="section objectives">
           <h2>Objectives</h2>
           <ul>
             <li>Monitor and control temperature and humidity using DHT11.</li>
-            <li>
-              Automate irrigation with soil moisture sensors and water pumps.
-            </li>
-            <li>
-              Measure light intensity to regulate photosynthesis and growth.
-            </li>
+            <li>Automate irrigation with soil moisture sensors and water pumps.</li>
+            <li>Measure light intensity to regulate photosynthesis and growth.</li>
           </ul>
         </section>
 
-        <section className="section sensors">
-          <h2>Sensors</h2>
-          <button onClick={() => setSensorFormVisible(!sensorFormVisible)}>
-            Add Sensor
-          </button>
-          {sensorFormVisible && (
-            <form onSubmit={handleSensorSubmit} className="form">
-              <label>
-                Sensor Image:
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileUpload(e, setNewSensor)}
-                />
-              </label>
-              <label>
-                Sensor Name:
-                <input
-                  type="text"
-                  value={newSensor.name}
-                  onChange={(e) =>
-                    setNewSensor({ ...newSensor, name: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Description:
-                <textarea
-                  value={newSensor.description}
-                  onChange={(e) =>
-                    setNewSensor({ ...newSensor, description: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Features:
-                <textarea
-                  value={newSensor.features}
-                  onChange={(e) =>
-                    setNewSensor({ ...newSensor, features: e.target.value })
-                  }
-                />
-              </label>
-              <button type="submit">Submit</button>
-            </form>
-          )}
-          <div className="item-list">
-            {sensors.map((sensor) => (
-              <div key={sensor._id} className="item-card">
-                <img src={sensor.image} alt={sensor.name} />
-                <div>
-                  <h3>{sensor.name}</h3>
-                  <p>{sensor.description}</p>
-                  <p>
-                    <strong>Features:</strong> {sensor.features}
-                  </p>
-                </div>
-                <button onClick={() => deleteSensor(sensor._id)}>Delete</button>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="section crops">
-          <h2>Crops</h2>
-          <button onClick={() => setCropFormVisible(!cropFormVisible)}>
-            Add Crop
-          </button>
-          {cropFormVisible && (
-            <form onSubmit={handleCropSubmit} className="form">
-              <label>
-                Crop Image:
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleFileUpload(e, setNewCrop)}
-                />
-              </label>
-              <label>
-                Crop Name:
-                <input
-                  type="text"
-                  value={newCrop.about}
-                  onChange={(e) =>
-                    setNewCrop({ ...newCrop, about: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Season:
-                <input
-                  type="text"
-                  value={newCrop.season}
-                  onChange={(e) =>
-                    setNewCrop({ ...newCrop, season: e.target.value })
-                  }
-                />
-              </label>
-              <button type="submit">Submit</button>
-            </form>
-          )}
-          <div className="item-list">
-            {crops.map((crop) => (
-              <div key={crop._id} className="item-card">
-                <img src={crop.image} alt={crop.about} />
-                <div>
-                  <h3>{crop.about}</h3>
-                  <p>
-                    <strong>Season:</strong> {crop.season}
-                  </p>
-                </div>
-                <button onClick={() => deleteCrop(crop._id)}>Delete</button>
-              </div>
-            ))}
-          </div>
+        {/* Cart for Sensors and Crops */}
+        <section className="section cart-section">
+          <Cart /> {/* Add Cart component */}
         </section>
       </div>
       <Footer />

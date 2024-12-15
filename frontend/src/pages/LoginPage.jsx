@@ -12,7 +12,7 @@ function LoginPage() {
     try {
       const response = await axiosInstance.post('/auth/login', { email, password });
       localStorage.setItem('token', response.data.token);
-      alert('Login successful!');
+      //alert('Login successful!');
       navigate('/dashboard');
     } catch (error) {
       console.error('Error during login:', error);

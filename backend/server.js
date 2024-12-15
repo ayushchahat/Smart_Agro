@@ -12,8 +12,7 @@ const connectDb = require('./config/db');
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
 const recordRoutes = require('./routes/recordRoutes');
-const sensorRoutes = require('./routes/sensorRoutes');
-const cropRoutes = require('./routes/cropRoutes');
+
 
 // Load environment variables
 dotenv.config();
@@ -72,8 +71,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Define routes
 app.use('/api/auth', authRoutes);
 app.use('/api/records', recordRoutes);
-app.use('/api/sensors', sensorRoutes);
-app.use('/api/crops', cropRoutes);
 
 // Socket.IO for real-time data
 io.on('connection', (socket) => {

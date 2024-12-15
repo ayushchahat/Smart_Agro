@@ -22,27 +22,29 @@ section {
   margin-bottom: 40px; /* Add consistent spacing between sections */
 }
 
-/* Graph Section */
+/* Graph Section Styling */
 .graphs {
   display: flex;
-  flex-direction: column; /* Adjust for mobile-friendly display */
-  justify-content: space-between;
-  margin-bottom: 20px; /* Consistent spacing */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
 }
-
-.graphs .graph {
-  width: 100%; /* Ensures each graph takes full width */
-  background-color: #f7f7f7; /* Consistent light background */
-  padding: 20px;
-  border-radius: 10px;
+.graph-container {
+  flex: 1 1 calc(33.333% - 20px);
+  min-width: 300px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* Adds spacing between graphs */
+  padding: 20px;
+  text-align: center;
 }
 
-.graphs .graph h3 {
-  text-align: center;
-  font-size: 1.2rem;
+.graph-container h3 {
   margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #333;
 }
 
 /* Crop Suggestions Section */
@@ -163,11 +165,11 @@ footer p {
 /* Responsive Design */
 @media (max-width: 768px) {
   .graphs {
-    flex-direction: column;
+    flex-direction: column; /* Stack graphs vertically on smaller screens */
   }
 
   .graphs .graph {
-    width: 100%;
+    width: 100%; /* Full width for smaller screens */
     margin-bottom: 20px;
   }
 }
