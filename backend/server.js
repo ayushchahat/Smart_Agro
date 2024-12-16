@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
     };
 
     socket.emit('sensor-data', sampleData);
-  }, 5000);
+  }, 900000);
 
   // Clean up on disconnect
   socket.on('disconnect', () => {
