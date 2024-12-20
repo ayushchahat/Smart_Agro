@@ -136,7 +136,7 @@ function Dashboard() {
       <div className="container">
         <h1>Smart Agriculture Dashboard</h1>
         <div className="graphs">
-          <SensorGraph sensorType="Temperature & Humidity" />
+          <SensorGraph sensorType="Air Humidity" />
           <SensorGraph sensorType="Soil Moisture" />
           <SensorGraph sensorType="Light Intensity" />
         </div>

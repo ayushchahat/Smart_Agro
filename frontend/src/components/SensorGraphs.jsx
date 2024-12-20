@@ -40,8 +40,8 @@ function SensorGraph({ sensorType }) {
 
     socket.on('sensor-data', (data) => {
       const value =
-        sensorType === 'Temperature & Humidity'
-          ? data.temperature
+        sensorType === 'Air Humidity'
+          ? data.humidity
           : sensorType === 'Soil Moisture'
           ? data.soilMoisture
           : data.lightIntensity;

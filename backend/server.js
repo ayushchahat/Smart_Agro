@@ -86,13 +86,13 @@ io.on('connection', (socket) => {
     const sampleData = {
       timestamp: new Date().toISOString(),
       temperature: getRandomInRange(20, 27), // Temperature range: 20-27°C
-      humidity: getRandomInRange(45, 65), // Humidity range: 70-85%
+      humidity: getRandomInRange(40, 75), // Humidity range: 70-85%
       soilMoisture: getRandomInRange(65, 80), // Soil moisture range: 400-600
       lightIntensity: getRandomInRange(400, 600), // Arbitrary light intensity range
     };
 
     socket.emit('sensor-data', sampleData);
-  }, 900000);
+  }, 6000);
 
   // Clean up on disconnect
   socket.on('disconnect', () => {
