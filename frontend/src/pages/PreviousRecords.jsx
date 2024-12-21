@@ -6,6 +6,7 @@ import '../styles/PreviousRecords.css';
 
 function PreviousRecords() {
   const [records, setRecords] = useState([]);
+  const [groupedRecords, setGroupedRecords] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -17,7 +18,19 @@ function PreviousRecords() {
     setLoading(true);
     try {
       const response = await axiosInstance.get('/records');
-      setRecords(response.data.records);
+      const fetchedRecords = response.data.records;
+
+      // Group records by crop category
+      const grouped = fetchedRecords.reduce((acc, record) => {
+        if (!acc[record.crop]) {
+          acc[record.crop] = [];
+        }
+        acc[record.crop].push(record);
+        return acc;
+      }, {});
+
+      setRecords(fetchedRecords);
+      setGroupedRecords(grouped);
     } catch (error) {
       setError('Error fetching records.');
     } finally {
@@ -41,27 +54,21 @@ function PreviousRecords() {
           </div>
         ) : (
           <>
-            {records.length > 0 ? (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Crop</th>
-                    <th>Cultivation Date</th>
-                    <th>Quantity (kg)</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {records.map((record) => (
-                    <tr key={record._id}>
-                      <td>{record.crop}</td>
-                      <td>{new Date(record.cultivationDate).toLocaleDateString()}</td>
-                      <td>{record.quantity}</td>
-                      <td>{record.description}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            {Object.keys(groupedRecords).length > 0 ? (
+              Object.keys(groupedRecords).map((crop) => (
+                <div className="category-section" key={crop}>
+                  <h2 className="category-title">{crop}</h2>
+                  <div className="records-container">
+                    {groupedRecords[crop].map((record) => (
+                      <div className="record-box" key={record._id}>
+                        <p><strong>Cultivation Date:</strong> {new Date(record.cultivationDate).toLocaleDateString()}</p>
+                        <p><strong>Quantity:</strong> {record.quantity} kg</p>
+                        <p><strong>Description:</strong> {record.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
             ) : (
               <p className="no-records">No records found.</p>
             )}
