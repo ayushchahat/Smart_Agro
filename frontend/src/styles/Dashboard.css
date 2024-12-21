@@ -1,16 +1,16 @@
 .dashboard-container {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   padding: 20px;
-  background: linear-gradient(to bottom, #e8f5e9, #ffffff);
+  background: var(--secondary-color);
   border-radius: 10px;
   max-width: 1200px;
   margin: 20px auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow-heavy);
 }
 
 h1 {
   text-align: center;
-  color: #2e7d32;
+  color: var(--primary-color);
   margin-bottom: 20px;
   font-size: 2rem;
   font-weight: bold;
@@ -21,32 +21,31 @@ h1 {
 }
 
 /* Graph Section Styling */
-.graphs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.graphs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   margin-top: 30px;
 }
 
 .graph-container {
+  flex: 1 1 calc(33.333% - 20px); /* Ensures three graphs per row */
+  min-width: 300px; /* Minimum width for responsiveness */
   background: #ffffff;
-  border: 2px solid #c8e6c9;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.graph-container:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
+
 
 .graph-container h3 {
   margin-bottom: 15px;
   font-size: 1.2rem;
-  color: #2e7d32;
+  color: #333;
 }
 
 .graph-placeholder {

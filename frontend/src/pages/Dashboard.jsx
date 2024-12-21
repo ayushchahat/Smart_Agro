@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import '../styles/Dashboard.css';
-import axiosInstance from '../utils/axiosInstance';
-import SensorGraph from '../components/SensorGraphs';
+import React, { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "../styles/Dashboard.css";
+import axiosInstance from "../utils/axiosInstance";
+import SensorGraph from "../components/SensorGraphs";
 
 function Dashboard() {
   const [sensorData, setSensorData] = useState({
@@ -13,21 +13,21 @@ function Dashboard() {
     lightIntensity: 0,
   });
   const [cropData, setCropData] = useState({
-    crop: '',
-    cultivationDate: '',
-    quantity: '',
-    description: '',
+    crop: "",
+    cultivationDate: "",
+    quantity: "",
+    description: "",
   });
   const [suggestedCrops, setSuggestedCrops] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchSensorData = async () => {
     try {
-      const response = await axiosInstance.get('/sensor-data');
+      const response = await axiosInstance.get("/sensor-data");
       setSensorData(response.data);
       suggestCrops();
     } catch (error) {
-      console.error('Error fetching sensor data:', error);
+      console.error("Error fetching sensor data:", error);
     }
   };
 
@@ -36,13 +36,14 @@ function Dashboard() {
     const crops = [];
     if (month === 11 || month === 0) {
       crops.push({
-        name: 'Wheat',
-        reason: 'Wheat grows well in cooler temperatures and requires moderate moisture.',
+        name: "Wheat",
+        reason:
+          "Wheat grows well in cooler temperatures and requires moderate moisture.",
       });
     } else {
       crops.push({
-        name: 'Corn',
-        reason: 'Corn thrives in warm weather with moderate soil moisture.',
+        name: "Corn",
+        reason: "Corn thrives in warm weather with moderate soil moisture.",
       });
     }
     setSuggestedCrops(crops);
@@ -52,12 +53,17 @@ function Dashboard() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await axiosInstance.post('/records', cropData);
-      alert('Crop record added successfully!');
-      setCropData({ crop: '', cultivationDate: '', quantity: '', description: '' });
+      await axiosInstance.post("/records", cropData);
+      alert("Crop record added successfully!");
+      setCropData({
+        crop: "",
+        cultivationDate: "",
+        quantity: "",
+        description: "",
+      });
     } catch (error) {
-      console.error('Error adding crop record:', error);
-      alert('Failed to add crop record. Please try again.');
+      console.error("Error adding crop record:", error);
+      alert("Failed to add crop record. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -76,9 +82,15 @@ function Dashboard() {
           <section className="graphs-section">
             <h2>📊 Sensor Graphs</h2>
             <div className="graphs-grid">
-              <SensorGraph sensorType="Air Humidity" />
-              <SensorGraph sensorType="Soil Moisture" />
-              <SensorGraph sensorType="Light Intensity" />
+              <div className="graph-container">
+                <SensorGraph sensorType="Air Humidity" />
+              </div>
+              <div className="graph-container">
+                <SensorGraph sensorType="Soil Moisture" />
+              </div>
+              <div className="graph-container">
+                <SensorGraph sensorType="Light Intensity" />
+              </div>
             </div>
           </section>
 
@@ -106,14 +118,18 @@ function Dashboard() {
                 name="crop"
                 placeholder="Crop Name"
                 value={cropData.crop}
-                onChange={(e) => setCropData({ ...cropData, crop: e.target.value })}
+                onChange={(e) =>
+                  setCropData({ ...cropData, crop: e.target.value })
+                }
                 required
               />
               <input
                 type="date"
                 name="cultivationDate"
                 value={cropData.cultivationDate}
-                onChange={(e) => setCropData({ ...cropData, cultivationDate: e.target.value })}
+                onChange={(e) =>
+                  setCropData({ ...cropData, cultivationDate: e.target.value })
+                }
                 required
               />
               <input
@@ -121,18 +137,22 @@ function Dashboard() {
                 name="quantity"
                 placeholder="Quantity (kg)"
                 value={cropData.quantity}
-                onChange={(e) => setCropData({ ...cropData, quantity: e.target.value })}
+                onChange={(e) =>
+                  setCropData({ ...cropData, quantity: e.target.value })
+                }
                 required
               />
               <textarea
                 name="description"
                 placeholder="Additional Notes"
                 value={cropData.description}
-                onChange={(e) => setCropData({ ...cropData, description: e.target.value })}
+                onChange={(e) =>
+                  setCropData({ ...cropData, description: e.target.value })
+                }
                 required
               ></textarea>
               <button type="submit" disabled={isLoading}>
-                {isLoading ? 'Submitting...' : 'Submit'}
+                {isLoading ? "Submitting..." : "Submit"}
               </button>
             </form>
           </section>

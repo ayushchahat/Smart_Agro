@@ -3,18 +3,20 @@
   padding: 20px;
   background: linear-gradient(to bottom, #e8f5e9, #ffffff);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow-light); /* Consistent shadow */
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
+/* Title Styling */
 h1 {
   font-size: 2.5rem;
-  color: #0d47a1;
+  color: var(--primary-color); /* Consistent primary color */
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
+  font-weight: bold;
 }
 
 .description {

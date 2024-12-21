@@ -1,11 +1,11 @@
-/* Profile Container */
 .profile-container {
   display: flex;
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow-light);
 }
 
 /* Profile Content */
@@ -15,13 +15,14 @@
 
 /* Profile Card */
 .profile-card {
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow-light);
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .profile-picture {

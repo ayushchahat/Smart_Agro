@@ -3,16 +3,18 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  background-color: var(--secondary-color); /* Change to consistent secondary color */
+  border-radius: 10px; /* Round corners for a cleaner look */
+  box-shadow: var(--box-shadow-light); /* Consistent box-shadow */
   font-family: 'Arial', sans-serif;
 }
 
 h1 {
   text-align: center;
-  color: #4caf50;
+  color: var(--primary-color); /* Consistent primary color */
   margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 /* Category Section Styling */
@@ -22,10 +24,11 @@ h1 {
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #ffffff;
+  box-shadow: var(--box-shadow-light); /* Consistent box-shadow */
 }
 
 .category-title {
-  color: #4caf50;
+  color: var(--primary-color); /* Consistent primary color */
   margin-bottom: 20px;
   font-size: 1.5rem;
   text-align: center;
@@ -46,7 +49,7 @@ h1 {
   border-radius: 8px;
   padding: 15px;
   background-color: #f5f5f5;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow-light); /* Consistent box-shadow */
   transition: transform 0.3s ease;
 }
 
@@ -56,7 +59,7 @@ h1 {
 
 .record-box p {
   margin: 5px 0;
-  color: #555;
+  color: var(--text-color); /* Consistent text color */
   font-size: 1rem;
 }
 
@@ -77,7 +80,7 @@ h1 {
 }
 
 .loading p {
-  color: #4caf50;
+  color: var(--primary-color); /* Consistent primary color for loading */
 }
 
 /* Responsive Design for Smaller Screens */
