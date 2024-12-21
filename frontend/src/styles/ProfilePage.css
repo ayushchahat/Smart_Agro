@@ -1,18 +1,19 @@
-/* ProfilePage.css */
+/* Profile Container */
 .profile-container {
-  max-width: 800px;
+  display: flex;
+  max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
 }
 
-.profile-heading {
-  text-align: center;
-  font-size: 2em;
-  color: #333;
+/* Profile Content */
+.profile-content {
+  width: 100%;
 }
 
+/* Profile Card */
 .profile-card {
   background-color: white;
   border-radius: 10px;
@@ -34,57 +35,59 @@
   text-align: center;
 }
 
-.edit-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
+/* Account Settings */
+.account-settings {
+  margin-top: 20px;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.update-button, .delete-button {
   padding: 10px 20px;
+  border: none;
   cursor: pointer;
-}
-
-.profile-edit label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.profile-edit input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-}
-
-.save-button, .cancel-button {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-}
-
-.save-button {
+.update-button {
   background-color: #4CAF50;
   color: white;
 }
 
-.cancel-button {
+.delete-button {
   background-color: #f44336;
   color: white;
 }
 
-.image-preview {
-  margin-top: 10px;
-  max-width: 200px;
-  max-height: 200px;
-  overflow: hidden;
+/* Quick Links Section */
+.quick-links {
+  margin-top: 30px;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 8px;
 }
 
-.image-preview img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+.quick-links h2 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+
+.quick-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.quick-links li {
+  margin-bottom: 10px;
+}
+
+.quick-links a {
+  text-decoration: none;
+  color: #4CAF50;
+  font-size: 1.2em;
+}
+
+.quick-links a:hover {
+  text-decoration: underline;
 }
