@@ -1,0 +1,82 @@
+.manual-automation {
+    text-align: center;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .pump-control {
+    margin: 20px 0;
+  }
+  
+  .pump-toggle {
+    display: inline-block;
+    width: 120px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    color: white;
+    transition: background-color 0.3s;
+  }
+  
+  .pump-toggle.on {
+    background-color: #4caf50;
+  }
+  
+  .pump-toggle.off {
+    background-color: #f44336;
+  }
+  
+  .set-timer {
+    margin-top: 20px;
+  }
+  
+  .set-timer input {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }
+  
+  .set-timer button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .set-timer button:hover {
+    background-color: #0056b3;
+  }
+  
+  @media (max-width: 768px) {
+    .pump-toggle {
+      width: 100px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 1rem;
+    }
+  
+    .set-timer input,
+    .set-timer button {
+      width: 90%;
+      margin: 5px auto;
+      display: block;
+    }
+  }
+  

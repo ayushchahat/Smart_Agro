@@ -8,11 +8,10 @@ const multer = require('multer');
 const morgan = require('morgan');
 const path = require('path');
 const connectDb = require('./config/db');
-
+const manualAutomationRoutes = require('./routes/manualAutomationRoutes');
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
 const recordRoutes = require('./routes/recordRoutes');
-
 
 // Load environment variables
 dotenv.config();
@@ -71,6 +70,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Define routes
 app.use('/api/auth', authRoutes);
 app.use('/api/records', recordRoutes);
+app.use('/api/manual', manualAutomationRoutes);
 
 // Socket.IO for real-time data
 io.on('connection', (socket) => {
@@ -101,7 +101,6 @@ io.on('connection', (socket) => {
   });
 });
 
-
 // Add GET endpoint for fetching sensor data (if needed)
 app.get('/api/sensor-data', (req, res) => {
   const sampleData = {
@@ -112,6 +111,28 @@ app.get('/api/sensor-data', (req, res) => {
     lightIntensity: (Math.random() * 1000).toFixed(2),
   };
   res.json(sampleData);
+});
+
+// Manual Automation Real-Time Updates
+io.on('connection', (socket) => {
+  console.log(`Manual Automation client connected: ${socket.id}`);
+
+  // Emit initial pump state when a client connects
+  socket.on('get-initial-state', async () => {
+    const pumpState = { isOn: false, timer: 0 }; // Fetch or define the initial state
+    socket.emit('update-pump-state', pumpState);
+  });
+
+  // Listen for pump state updates
+  socket.on('update-pump', (data) => {
+    const updatedState = { isOn: data.isOn, timer: data.timer };
+    io.emit('update-pump-state', updatedState); // Broadcast updated state
+  });
+
+  // Handle client disconnect
+  socket.on('disconnect', () => {
+    console.log(`Manual Automation client disconnected: ${socket.id}`);
+  });
 });
 
 // Global error handler
