@@ -16,16 +16,16 @@ function Navbar() {
         <div className="navbar-logo">Smart_Agro</div>
       </div>
       <div className={`nav-links ${isDropdownOpen ? 'open' : ''}`}>
-        <Link to="/dashboard">Home</Link>
-        <Link to="/profile">Profile</Link>
-        <Link to="/records">Previous Records</Link>
-        <Link to="/manual-automation">Manual Automation</Link> {/* Added Manual Automation */}
-        <Link to="/about">About</Link>
-        <Link to="/">Logout</Link>
+        <Link to="/dashboard" className="nav-link">Home</Link>
+        <Link to="/profile" className="nav-link">Profile</Link>
+        <Link to="/records" className="nav-link">Previous Records</Link>
+        <Link to="/manual-automation" className="nav-link">Manual Automation</Link>
+        <Link to="/about" className="nav-link">About</Link>
+        <Link to="/" className="nav-link">Logout</Link>
       </div>
       <div className="navbar-dropdown">
         <button className="dropdown-toggle" onClick={toggleDropdown}>
-          &#9776; {/* Hamburger icon */}
+          &#9776;
         </button>
       </div>
     </nav>
