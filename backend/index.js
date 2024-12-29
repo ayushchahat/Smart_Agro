@@ -7,7 +7,6 @@ const helmet = require('helmet');
 const multer = require('multer');
 const morgan = require('morgan');
 const path = require('path');
-const fs = require('fs');
 const connectDb = require('./config/db');
 const manualAutomationRoutes = require('./routes/manualAutomationRoutes');
 // Import Routes
@@ -24,7 +23,7 @@ const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'https://smart-agro-frontend-4qb1.onrender.com',
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
 });
@@ -36,7 +35,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'https://smart-agro-frontend-4qb1.onrender.com',
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
@@ -46,10 +45,7 @@ app.use(
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadDir = path.join(__dirname, 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir); // Ensure directory exists
-    }
-    cb(null, uploadDir);
+    cb(null, uploadDir); // Ensure this folder exists
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname); // Generate a unique file name
@@ -76,7 +72,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/manual', manualAutomationRoutes);
 
-// Socket.IO for real-time data and manual automation
+// Socket.IO for real-time data
 io.on('connection', (socket) => {
   console.log('A client connected:', socket.id);
 
@@ -90,24 +86,13 @@ io.on('connection', (socket) => {
     const sampleData = {
       timestamp: new Date().toISOString(),
       temperature: getRandomInRange(20, 27), // Temperature range: 20-27°C
-      humidity: getRandomInRange(40, 75), // Humidity range: 40-75%
-      soilMoisture: getRandomInRange(65, 80), // Soil moisture range: 65-80
+      humidity: getRandomInRange(40, 75), // Humidity range: 70-85%
+      soilMoisture: getRandomInRange(65, 80), // Soil moisture range: 400-600
       lightIntensity: getRandomInRange(400, 600), // Arbitrary light intensity range
     };
 
     socket.emit('sensor-data', sampleData);
   }, 10000);
-
-  // Manual Automation Real-Time Updates
-  socket.on('get-initial-state', async () => {
-    const pumpState = { isOn: false, timer: 0 }; // Fetch or define the initial state
-    socket.emit('update-pump-state', pumpState);
-  });
-
-  socket.on('update-pump', (data) => {
-    const updatedState = { isOn: data.isOn, timer: data.timer };
-    io.emit('update-pump-state', updatedState); // Broadcast updated state
-  });
 
   // Clean up on disconnect
   socket.on('disconnect', () => {
@@ -126,6 +111,28 @@ app.get('/api/sensor-data', (req, res) => {
     lightIntensity: (Math.random() * 1000).toFixed(2),
   };
   res.json(sampleData);
+});
+
+// Manual Automation Real-Time Updates
+io.on('connection', (socket) => {
+  console.log(`Manual Automation client connected: ${socket.id}`);
+
+  // Emit initial pump state when a client connects
+  socket.on('get-initial-state', async () => {
+    const pumpState = { isOn: false, timer: 0 }; // Fetch or define the initial state
+    socket.emit('update-pump-state', pumpState);
+  });
+
+  // Listen for pump state updates
+  socket.on('update-pump', (data) => {
+    const updatedState = { isOn: data.isOn, timer: data.timer };
+    io.emit('update-pump-state', updatedState); // Broadcast updated state
+  });
+
+  // Handle client disconnect
+  socket.on('disconnect', () => {
+    console.log(`Manual Automation client disconnected: ${socket.id}`);
+  });
 });
 
 // Global error handler
