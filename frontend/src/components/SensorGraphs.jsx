@@ -36,7 +36,7 @@ function SensorGraph({ sensorType }) {
   });
 
   useEffect(() => {
-    const socket = io('http://localhost:5000'); // Hardcoded socket URL
+    const socket = io('https://smart-agro-backend.onrender.com'); // Updated socket URL
 
     socket.on('sensor-data', (data) => {
       const value =

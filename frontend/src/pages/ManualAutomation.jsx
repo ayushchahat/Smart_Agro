@@ -5,7 +5,7 @@ import "../styles/ManualAutomation.css";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const socket = io(process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000');
+const socket = io(process.env.REACT_APP_BACKEND_URL || 'https://smart-agro-backend.onrender.com'); // Updated socket URL
 
 const ManualAutomation = () => {
   const [pumpState, setPumpState] = useState(false); // ON/OFF state
